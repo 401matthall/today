@@ -1,0 +1,44 @@
+# Use postgres/example user/password credentials
+version: '2'
+
+services:
+
+  app:
+    container_name: worklog_app
+    build: ./docker/elixir
+    restart: unless-stopped
+    
+    env_file:
+      - ./smtp.env
+      - ./server.env
+
+    volumes:
+    - ./:/app
+    working_dir: /app
+    ports:
+      - 80:80
+      - 4369:4369
+    networks:
+      - nginx-network
+    depends_on:
+      - "db"
+    tty: true
+    command: ["bash", "-c", "mix local.rebar --force && mix deps.get --only-prod && mix ecto.setup && mix phx.digest && iex -S mix phx.server"]
+
+  db:
+    container_name: worklog_db
+    image: postgres:11
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
+    external: true
+

@@ -1,0 +1,55 @@
+# Use postgres/example user/password credentials
+version: '3'
+
+services:
+
+  app:
+    container_name: worklog_app
+    build: ./docker/elixir
+    restart: unless-stopped
+
+    env_file:
+      - ./smtp.env
+      - ./server.env
+
+    volumes:
+    - ./:/app
+    working_dir: /app
+    ports:
+      - 80:80
+      - 4000:4000
+      - 4369:4369
+    networks:
+      - bridge
+    depends_on:
+      - "db"
+      - "mailhog"
+    tty: true
+
+  db:
+    container_name: worklog_db
+    image: postgres:11
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    networks:
+      - bridge
+
+  mailhog:
+    container_name: worklog_mailhog
+    image: mailhog/mailhog
+    restart: unless-stopped
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - bridge
+
+networks:
+  bridge:
+    external: true
+
