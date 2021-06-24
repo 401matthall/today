@@ -1,0 +1,40 @@
+<div class="flex items-center justify-center">
+  <div class="bg-gray-100 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
+    <h1>Register</h1>
+    <%= form_for @changeset, @action, [as: :user], fn f -> %>
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p>Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+
+      <div class="mb-4">
+      <%= label f, Pow.Ecto.Schema.user_id_field(@changeset), class: "block text-gray-700 text-xl font-bold mb-2" %>
+      <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", autofocus: true %>
+      <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+      </div>
+
+      <div class="mb-4">
+      <%= label f, :password, class: "block text-gray-700 text-xl font-bold mb-2" %>
+      <%= password_input f, :password, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      <%= error_tag f, :password %>
+      </div>
+
+      <div class="mb-6">
+      <%= label f, :password_confirmation, class: "block text-gray-700 text-xl font-bold mb-2" %>
+      <%= password_input f, :password_confirmation, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      <%= error_tag f, :password_confirmation %>
+      </div>
+
+      <div class="flex items-center justify-center">
+        <%= submit "Register", class: "btn btn-blue" %>
+      </div>
+    <% end %>
+    <svg class="stroke-current text-gray-600 inline-block m-4" viewBox="0 0.1 20 0.1" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="0.5" x2="20" y2="0.5"/>
+    </svg>
+    <div class="flex items-center justify-center">
+      <div class="text-gray-900">Already signed up? <%= link "Sign In", to: Routes.pow_session_path(@conn, :new), class: "btn btn-gray" %></div>
+    </div>
+  </div>
+</div>

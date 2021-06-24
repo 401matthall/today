@@ -46,7 +46,15 @@ defmodule Worklog.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:bcrypt_elixir, "~> 2.0"},
+      {:timex, "~> 3.6.1"},
+      {:uuid, "~> 1.1"},
+      {:pow, "~> 1.0.20"},
+      {:bamboo, "~> 1.3"},
+      {:bamboo_smtp, "~> 2.1"},
+      {:faker, "~> 0.13.0"},
+      {:persistent_ets, "~> 0.2.1"},
     ]
   end
 
