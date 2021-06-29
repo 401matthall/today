@@ -1,0 +1,12 @@
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Created At</th>
+    </tr>
+    <%= for worklog = %Today.Worklog{} <- @worklogs do %>
+        <tr>
+            <td><%= worklog.title %></td>
+            <td><%= worklog.inserted_at %>
+        </tr>
+    <%= end %>
+</table>
