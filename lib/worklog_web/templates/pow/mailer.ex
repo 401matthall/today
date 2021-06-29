@@ -1,6 +1,6 @@
-defmodule WorklogWeb.Pow.Mailer do
+defmodule TodayWeb.Pow.Mailer do
   use Pow.Phoenix.Mailer
-  use Bamboo.Mailer, otp_app: :worklog
+  use Bamboo.Mailer, otp_app: :today
 
   import Bamboo.Email
 
@@ -8,7 +8,7 @@ defmodule WorklogWeb.Pow.Mailer do
   def cast(%{user: user, subject: subject, text: text, html: html}) do
     new_email(
       to: user.email,
-      from: "no-reply@worklog.net",
+      from: "no-reply@Today.net",
       subject: subject,
       html_body: html,
       text_body: text

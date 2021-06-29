@@ -1,12 +1,12 @@
-defmodule WorklogWeb do
+defmodule TodayWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use WorklogWeb, :controller
-      use WorklogWeb, :view
+      use TodayWeb, :controller
+      use TodayWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,11 +19,11 @@ defmodule WorklogWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: WorklogWeb
+      use Phoenix.Controller, namespace: TodayWeb
 
       import Plug.Conn
-      import WorklogWeb.Gettext
-      alias WorklogWeb.Router.Helpers, as: Routes
+      import TodayWeb.Gettext
+      alias TodayWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -31,7 +31,7 @@ defmodule WorklogWeb do
     quote do
       use Phoenix.View,
         root: "lib/worklog_web/templates",
-        namespace: WorklogWeb
+        namespace: TodayWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -45,7 +45,7 @@ defmodule WorklogWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {WorklogWeb.LayoutView, "live.html"}
+        layout: {TodayWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
     end
@@ -72,7 +72,7 @@ defmodule WorklogWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import WorklogWeb.Gettext
+      import TodayWeb.Gettext
     end
   end
 
@@ -87,9 +87,9 @@ defmodule WorklogWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import WorklogWeb.ErrorHelpers
-      import WorklogWeb.Gettext
-      alias WorklogWeb.Router.Helpers, as: Routes
+      import TodayWeb.ErrorHelpers
+      import TodayWeb.Gettext
+      alias TodayWeb.Router.Helpers, as: Routes
     end
   end
 

@@ -1,4 +1,4 @@
-defmodule Worklog.DataCase do
+defmodule Today.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -10,7 +10,7 @@ defmodule Worklog.DataCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use Worklog.DataCase, async: true`, although
+  by setting `use Today.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -18,20 +18,20 @@ defmodule Worklog.DataCase do
 
   using do
     quote do
-      alias Worklog.Repo
+      alias Today.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Worklog.DataCase
+      import Today.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Worklog.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Today.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Worklog.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Today.Repo, {:shared, self()})
     end
 
     :ok

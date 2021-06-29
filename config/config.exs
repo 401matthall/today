@@ -7,15 +7,15 @@
 # General application configuration
 use Mix.Config
 
-config :worklog,
-  ecto_repos: [Worklog.Repo]
+config :today,
+  ecto_repos: [Today.Repo]
 
 # Configures the endpoint
-config :worklog, WorklogWeb.Endpoint,
+config :today, TodayWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "y/FVsO0qZDcevB6YHw2i50Uo0s5L0USGJSRufLsbePkIA9yM/CcJcBYMry0eGjJc",
-  render_errors: [view: WorklogWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Worklog.PubSub,
+  render_errors: [view: TodayWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: Today.PubSub,
   live_view: [signing_salt: "g3tYnZDx"]
 
 # Configures Elixir's Logger
@@ -26,14 +26,14 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :worklog, :pow,
-  user: Worklog.Users.User,
-  repo: Worklog.Repo,
+config :today, :pow,
+  user: Today.Users.User,
+  repo: Today.Repo,
   extensions: [PowResetPassword, PowEmailConfirmation],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
-  web_module: WorklogWeb,
-  mailer_backend: WorklogWeb.Pow.Mailer,
-  web_module_mailer: WorklogWeb
+  web_module: TodayWeb,
+  mailer_backend: TodayWeb.Pow.Mailer,
+  web_module_mailer: TodayWeb
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

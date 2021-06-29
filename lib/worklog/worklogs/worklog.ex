@@ -1,4 +1,4 @@
-defmodule Worklog.Worklog do
+defmodule Today.Worklog do
   use Ecto.Schema
 
   schema "worklogs" do

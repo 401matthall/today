@@ -1,9 +1,9 @@
-defmodule Worklog.MixProject do
+defmodule Today.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :worklog,
+      app: :today,
       version: "0.1.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule Worklog.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Worklog.Application, []},
+      mod: {Today.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

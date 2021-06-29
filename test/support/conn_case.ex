@@ -1,4 +1,4 @@
-defmodule WorklogWeb.ConnCase do
+defmodule TodayWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule WorklogWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use WorklogWeb.ConnCase, async: true`, although
+  by setting `use TodayWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -22,20 +22,20 @@ defmodule WorklogWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import WorklogWeb.ConnCase
+      import TodayWeb.ConnCase
 
-      alias WorklogWeb.Router.Helpers, as: Routes
+      alias TodayWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint WorklogWeb.Endpoint
+      @endpoint TodayWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Worklog.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Today.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Worklog.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Today.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

@@ -1,5 +1,5 @@
-defmodule WorklogWeb.ErrorView do
-  use WorklogWeb, :view
+defmodule TodayWeb.ErrorView do
+  use TodayWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

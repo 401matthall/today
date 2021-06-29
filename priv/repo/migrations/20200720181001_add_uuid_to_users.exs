@@ -1,4 +1,4 @@
-defmodule Worklog.Repo.Migrations.AddUuidToUsers do
+defmodule Today.Repo.Migrations.AddUuidToUsers do
   use Ecto.Migration
 
   def change do

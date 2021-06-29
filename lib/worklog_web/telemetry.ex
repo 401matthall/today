@@ -1,4 +1,4 @@
-defmodule WorklogWeb.Telemetry do
+defmodule TodayWeb.Telemetry do
   use Supervisor
   import Telemetry.Metrics
 
@@ -31,11 +31,11 @@ defmodule WorklogWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("worklog.repo.query.total_time", unit: {:native, :millisecond}),
-      summary("worklog.repo.query.decode_time", unit: {:native, :millisecond}),
-      summary("worklog.repo.query.query_time", unit: {:native, :millisecond}),
-      summary("worklog.repo.query.queue_time", unit: {:native, :millisecond}),
-      summary("worklog.repo.query.idle_time", unit: {:native, :millisecond}),
+      summary("Today.repo.query.total_time", unit: {:native, :millisecond}),
+      summary("Today.repo.query.decode_time", unit: {:native, :millisecond}),
+      summary("Today.repo.query.query_time", unit: {:native, :millisecond}),
+      summary("Today.repo.query.queue_time", unit: {:native, :millisecond}),
+      summary("Today.repo.query.idle_time", unit: {:native, :millisecond}),
 
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
@@ -49,7 +49,7 @@ defmodule WorklogWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {WorklogWeb, :count_users, []}
+      # {TodayWeb, :count_users, []}
     ]
   end
 end

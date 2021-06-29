@@ -1,4 +1,4 @@
-defmodule Worklog.Ets do
+defmodule Today.Ets do
 
   def insert(table, {key, value}) do
     case :ets.insert(table, {key, value}) do

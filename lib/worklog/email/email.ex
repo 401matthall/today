@@ -1,5 +1,5 @@
-defmodule Worklog.Email do
-    use Bamboo.Phoenix, view: WorklogWeb.EmailView
+defmodule Today.Email do
+    use Bamboo.Phoenix, view: TodayWeb.EmailView
     import Bamboo.Email
 
     def validation_email(to_address, token) do
@@ -11,7 +11,7 @@ defmodule Worklog.Email do
 
     defp base_email do
       new_email()
-      |> from("no-reply@worklog.net")
+      |> from("no-reply@Today.net")
       # This will use the "email.html.eex" file as a layout when rendering html emails.
       # Plain text emails will not use a layout unless you use `put_text_layout`
 

@@ -1,4 +1,4 @@
-defmodule WorklogWeb.AssignUser do
+defmodule TodayWeb.AssignUser do
   import Plug.Conn
 
   def init(opts), do: opts

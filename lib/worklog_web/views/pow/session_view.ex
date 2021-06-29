@@ -1,3 +1,3 @@
-defmodule WorklogWeb.Pow.SessionView do
-  use WorklogWeb, :view
+defmodule TodayWeb.Pow.SessionView do
+  use TodayWeb, :view
 end

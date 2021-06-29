@@ -1,5 +1,5 @@
-defmodule WorklogWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :worklog
+defmodule TodayWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :today
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -10,7 +10,7 @@ defmodule WorklogWeb.Endpoint do
     signing_salt: "NiIXLxoX"
   ]
 
-  socket "/socket", WorklogWeb.UserSocket,
+  socket "/socket", TodayWeb.UserSocket,
     websocket: true,
     longpoll: false
 
@@ -22,7 +22,7 @@ defmodule WorklogWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :worklog,
+    from: :today,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
@@ -32,7 +32,7 @@ defmodule WorklogWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :worklog
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :today
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -50,6 +50,6 @@ defmodule WorklogWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug Pow.Plug.Session, otp_app: :worklog
-  plug WorklogWeb.Router
+  plug Pow.Plug.Session, otp_app: :today
+  plug TodayWeb.Router
 end

@@ -1,3 +1,3 @@
-defmodule WorklogWeb.Pow.RegistrationView do
-  use WorklogWeb, :view
+defmodule TodayWeb.Pow.RegistrationView do
+  use TodayWeb, :view
 end

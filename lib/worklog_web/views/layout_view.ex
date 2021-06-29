@@ -1,3 +1,3 @@
-defmodule WorklogWeb.LayoutView do
-  use WorklogWeb, :view
+defmodule TodayWeb.LayoutView do
+  use TodayWeb, :view
 end

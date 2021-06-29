@@ -1,5 +1,5 @@
-defmodule WorklogWeb.Router do
-  use WorklogWeb, :router
+defmodule TodayWeb.Router do
+  use TodayWeb, :router
   use Pow.Phoenix.Router
   use Pow.Extension.Phoenix.Router,
   extensions: [PowResetPassword, PowEmailConfirmation]
@@ -8,10 +8,10 @@ defmodule WorklogWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {WorklogWeb.LayoutView, :root}
+    plug :put_root_layout, {TodayWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug WorklogWeb.AssignUser
+    plug TodayWeb.AssignUser
   end
 
   pipeline :api do
@@ -32,26 +32,26 @@ defmodule WorklogWeb.Router do
     pow_extension_routes()
   end
 
-  scope "/", WorklogWeb do
+  scope "/", TodayWeb do
     pipe_through :browser
     live "/", PageLive, :index
   end
 
-  scope "/worklogs", WorklogWeb do
+  scope "/worklogs", TodayWeb do
     pipe_through [:browser, :authenticated]
     live "/", WorklogsLive, :index
     live "/new", WorklogsLive, :new
     live "/search", WorklogsLive, :search
   end
 
-  scope "/tags", WorklogWeb do
+  scope "/tags", TodayWeb do
     pipe_through [:browser, :authenticated]
     live "/", TagsLive, :index
     live "/new", TagsLive, :new
     live "/search", TagsLive, :search
   end
 
-  scope "/users", WorklogWeb do
+  scope "/users", TodayWeb do
     pipe_through [:browser, :authenticated, :admin]
     live "/", UsersLive, :index
     live "/new", UsersLive, :new
@@ -60,7 +60,7 @@ defmodule WorklogWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", WorklogWeb do
+  # scope "/api", TodayWeb do
   #   pipe_through :api
   # end
 
@@ -76,7 +76,7 @@ defmodule WorklogWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: WorklogWeb.Telemetry
+      live_dashboard "/dashboard", metrics: TodayWeb.Telemetry
     end
   end
 end

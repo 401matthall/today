@@ -1,5 +1,5 @@
-defmodule WorklogWeb.PageLiveTest do
-  use WorklogWeb.ConnCase
+defmodule TodayWeb.PageLiveTest do
+  use TodayWeb.ConnCase
 
   import Phoenix.LiveViewTest
 

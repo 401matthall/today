@@ -1,6 +1,6 @@
-defmodule Worklog.Repo do
+defmodule Today.Repo do
   use Ecto.Repo,
-    otp_app: :worklog,
+    otp_app: :today,
     adapter: Ecto.Adapters.Postgres
 
     def init(_type, config) do

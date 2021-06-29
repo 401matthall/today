@@ -1,3 +1,3 @@
-defmodule WorklogWeb.PowResetPassword.ResetPasswordView do
-  use WorklogWeb, :view
+defmodule TodayWeb.PowResetPassword.ResetPasswordView do
+  use TodayWeb, :view
 end

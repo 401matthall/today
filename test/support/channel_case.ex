@@ -1,4 +1,4 @@
-defmodule WorklogWeb.ChannelCase do
+defmodule TodayWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -11,7 +11,7 @@ defmodule WorklogWeb.ChannelCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use WorklogWeb.ChannelCase, async: true`, although
+  by setting `use TodayWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -21,18 +21,18 @@ defmodule WorklogWeb.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
-      import WorklogWeb.ChannelCase
+      import TodayWeb.ChannelCase
 
       # The default endpoint for testing
-      @endpoint WorklogWeb.Endpoint
+      @endpoint TodayWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Worklog.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Today.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Worklog.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Today.Repo, {:shared, self()})
     end
 
     :ok

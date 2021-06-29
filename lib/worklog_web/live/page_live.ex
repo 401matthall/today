@@ -1,5 +1,5 @@
-defmodule WorklogWeb.PageLive do
-  use WorklogWeb, :live_view
+defmodule TodayWeb.PageLive do
+  use TodayWeb, :live_view
 
   @impl true
   def mount(_params, _session, socket) do
@@ -26,7 +26,7 @@ defmodule WorklogWeb.PageLive do
   end
 
   defp search(query) do
-    if not WorklogWeb.Endpoint.config(:code_reloader) do
+    if not TodayWeb.Endpoint.config(:code_reloader) do
       raise "action disabled when not in development"
     end
 
