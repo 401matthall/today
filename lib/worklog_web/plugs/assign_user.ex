@@ -4,6 +4,6 @@ defmodule TodayWeb.AssignUser do
   def init(opts), do: opts
 
   def call(conn, _params) do
-    put_session(conn, :current_user, if (conn.assigns.current_user) do conn.assigns.current_user.uuid else nil end)
+    put_session(conn, :current_user, if (conn.assigns.current_user) do conn.assigns.current_user.id else nil end)
   end
 end
