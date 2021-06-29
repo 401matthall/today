@@ -1,3 +1,3 @@
 #!/bin/bash
 
-tmux new-session "docker exec -it zulu_app /bin/bash"
+tmux new-session "docker exec -it worklog_app /bin/bash"

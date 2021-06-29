@@ -74,3 +74,10 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :worklog, WorklogWeb.Pow.Mailer,
+  adapter: Bamboo.SMTPAdapter,
+  server: "mailhog",
+  port: 1025,
+  tls: :never,
+  ssl: false

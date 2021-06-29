@@ -11,6 +11,8 @@ defmodule Worklog.Users.User do
     pow_user_fields()
 
     timestamps()
+
+    has_many :worklogs, Worklog
   end
 
   def changeset(user_or_changeset, attrs) do

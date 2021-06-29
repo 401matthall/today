@@ -1,6 +1,6 @@
-defmodule ZuluWeb.Pow.Mailer do
+defmodule WorklogWeb.Pow.Mailer do
   use Pow.Phoenix.Mailer
-  use Bamboo.Mailer, otp_app: :zulu
+  use Bamboo.Mailer, otp_app: :worklog
 
   import Bamboo.Email
 

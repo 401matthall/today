@@ -13,9 +13,11 @@
     <header>
       <nav role="navigation" class="flex items-center justify-between flex-wrap bg-blue-900 p-6">
         <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-        <div><%= link "Zulu", to: Routes.page_path(@conn, :index), class: "btn btn-blue m-1" %></div>
+        <div><%= link "Worklog", to: Routes.page_path(@conn, :index), class: "btn btn-blue m-1" %></div>
         <%= if Pow.Plug.current_user(@conn) do %>
-          <div><%= live_redirect "Simulations", to: Routes.simulations_path(@conn, :index), class: "btn btn-blue m-1 whitespace-no-wrap" %></div>
+          <div><%= live_redirect "Worklogs", to: Routes.worklogs_path(@conn, :index), class: "btn btn-blue m-1 whitespace-no-wrap" %></div>
+          <div><%= live_redirect "Tags", to: Routes.tags_path(@conn, :index), class: "btn btn-blue m-1 whitespace-no-wrap" %></div>
+          <div><%= live_redirect "Users", to: Routes.users_path(@conn, :index), class: "btn btn-blue m-1 whitespace-no-wrap" %></div>
         <% end %>
         <div class="w-full"></div>
           <%= if Pow.Plug.current_user(@conn) do %>

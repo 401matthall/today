@@ -23,6 +23,9 @@ defmodule WorklogWeb.Router do
       error_handler: Pow.Phoenix.PlugErrorHandler
   end
 
+  pipeline :admin do
+  end
+
   scope "/" do
     pipe_through :browser
     pow_routes()
@@ -32,6 +35,28 @@ defmodule WorklogWeb.Router do
   scope "/", WorklogWeb do
     pipe_through :browser
     live "/", PageLive, :index
+  end
+
+  scope "/worklogs", WorklogWeb do
+    pipe_through [:browser, :authenticated]
+    live "/", WorklogsLive, :index
+    live "/new", WorklogsLive, :new
+    live "/search", WorklogsLive, :search
+  end
+
+  scope "/tags", WorklogWeb do
+    pipe_through [:browser, :authenticated]
+    live "/", TagsLive, :index
+    live "/new", TagsLive, :new
+    live "/search", TagsLive, :search
+  end
+
+  scope "/users", WorklogWeb do
+    pipe_through [:browser, :authenticated, :admin]
+    live "/", UsersLive, :index
+    live "/new", UsersLive, :new
+    live "/edit", UsersLive, :edit
+    live "/search", UsersLive, :search
   end
 
   # Other scopes may use custom stacks.
