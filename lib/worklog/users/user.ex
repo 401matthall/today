@@ -7,12 +7,9 @@ defmodule Today.Users.User do
 
   schema "users" do
     field :uuid, :string
-
     pow_user_fields()
-
     timestamps()
-
-    has_many :worklogs, Worklog
+    has_many :worklogs, Today.Worklog
   end
 
   def changeset(user_or_changeset, attrs) do

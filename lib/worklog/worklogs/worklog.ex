@@ -6,6 +6,8 @@ defmodule Today.Worklog do
     field :body, :string
     field :user_id, :integer
     timestamps()
+
+    many_to_many(:tags, Tag, join_through: "worklogs_tags")
   end
 
   def changeset(worklog, params \\ %{}) do

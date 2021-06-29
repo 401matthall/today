@@ -29,6 +29,12 @@ defmodule TodayWeb.WorklogsLive do
     worklog = %Today.Worklog{}
     changeset = Today.Worklog.changeset(worklog, %{title: worklog_params["title"], body: worklog_params["body"], user_id: worklog_params["user_id"]})
     Today.Repo.insert(changeset)
+    # @TODO manage tags
+    # tags = worklog_params["tags"]
+    # split string on commas into separate elements
+    # lower case all elements (should probably be done at the persistence layer)
+    # check if each tag exists, if not create it
+    # include tags in persist
   end
 
 end
