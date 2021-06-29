@@ -33,8 +33,8 @@ defmodule TodayWeb.Router do
   end
 
   scope "/", TodayWeb do
-    pipe_through :browser
-    live "/", PageLive, :index
+    pipe_through [:browser, :authenticated]
+    live "/", DashboardLive, :index
   end
 
   scope "/worklogs", TodayWeb do
