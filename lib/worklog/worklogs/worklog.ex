@@ -1,5 +1,7 @@
 defmodule Today.Worklog do
   use Ecto.Schema
+  alias Today.Tag
+  alias Today.WorklogTag
 
   schema "worklogs" do
     field :title, :string
@@ -7,7 +9,7 @@ defmodule Today.Worklog do
     field :user_id, :integer
     timestamps()
 
-    many_to_many(:tags, Tag, join_through: "worklogs_tags")
+    many_to_many(:tags, Tag, join_through: WorklogTag)
   end
 
   def changeset(worklog, params \\ %{}) do
