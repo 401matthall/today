@@ -2,11 +2,21 @@
     <tr>
         <th>Title</th>
         <th>Created At</th>
+        <th>Tags</th>
     </tr>
     <%= for worklog = %Today.Worklog{} <- @worklogs do %>
         <tr>
             <td><%= worklog.title %></td>
             <td><%= worklog.inserted_at %>
+            <td>
+                <%= for {tag, i} <- Enum.with_index(worklog.tags, 1) do %>
+                    <%= if Enum.count(worklog.tags) != i do %>
+                        <%= tag.text %>,
+                    <%= else %>
+                        <%= tag.text %>
+                    <%= end %>
+                <%= end %>
+            </td>
         </tr>
     <%= end %>
 </table>

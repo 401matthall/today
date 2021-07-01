@@ -11,6 +11,7 @@ defmodule TodayWeb.DashboardLive do
     worklogs = Today.Worklog
       |> Ecto.Query.where(user_id: ^session["current_user"])
       |> Today.Repo.all
+      |> Today.Repo.preload(:tags)
 
     {
       :ok,
