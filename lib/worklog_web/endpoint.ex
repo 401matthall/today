@@ -51,5 +51,6 @@ defmodule TodayWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug Pow.Plug.Session, otp_app: :today
+  plug PowPersistentSession.Plug.Cookie
   plug TodayWeb.Router
 end
