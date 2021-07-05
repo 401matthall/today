@@ -2,17 +2,14 @@ defmodule TodayWeb.DashboardLive do
   use TodayWeb, :live_view
   require Logger
   require Ecto.Query
+  alias Today.Worklog
 
   @impl true
   def mount(_params, session, socket) do
     if connected?(socket) do
     end
 
-    worklogs = Today.Worklog
-      |> Ecto.Query.where(user_id: ^session["current_user"])
-      |> Today.Repo.all
-      |> Today.Repo.preload(:tags)
-
+    worklogs = Worklog.fetch_with_assoc_by_user_id(session["current_user"])
     {
       :ok,
       socket

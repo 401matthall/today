@@ -1,7 +1,7 @@
 defmodule Today.Tag do
   use Ecto.Schema
-  alias Today.Worklog
-  alias Today.WorklogTag
+  alias Ecto.Changeset
+  alias Today.{Worklog, WorklogTag}
 
   schema "tags" do
     field :text, :string
@@ -13,8 +13,10 @@ defmodule Today.Tag do
 
   def changeset(worklog, params \\ %{}) do
     worklog
-    |> Ecto.Changeset.cast(params, [:text, :user_id])
+    |> Changeset.cast(params, [:text, :user_id])
     # @TODO limit length of Tag to 30 characters?
-    |> Ecto.Changeset.validate_required([:text, :user_id])
+    |> Changeset.validate_required([:text, :user_id])
+    |> Changeset.update_change(:text, &String.downcase/1)
+    |> Changeset.unique_constraint([:text, :user_id], name: :text_user_id_index)
   end
 end

@@ -12,11 +12,11 @@
                 <%= for {tag, i} <- Enum.with_index(worklog.tags, 1) do %>
                     <%= if Enum.count(worklog.tags) != i do %>
                         <%= tag.text %>,
-                    <%= else %>
+                    <% else %>
                         <%= tag.text %>
-                    <%= end %>
-                <%= end %>
+                    <% end %>
+                <% end %>
             </td>
         </tr>
-    <%= end %>
+    <% end %>
 </table>
