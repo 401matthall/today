@@ -4,8 +4,6 @@ defmodule Today.WorklogTag do
   alias Today.{Worklog, Tag}
 
   schema "worklogs_tags" do
-    belongs_to(:worklogs, Worklog)
-    belongs_to(:tags, Tag)
     field :worklog_id, :integer
     field :tag_id, :integer
 
