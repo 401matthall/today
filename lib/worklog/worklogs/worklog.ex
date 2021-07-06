@@ -53,7 +53,7 @@ defmodule Today.Worklog do
   end
 
   def fetch_by_user_id(user_id) when is_integer(user_id) do
-    Repo.all(from w in Worklog, where: w.user_id == ^user_id)
+    Repo.all(from w in Worklog, where: w.user_id == ^user_id, order_by: [desc: w.id])
   end
 
   def fetch_by_tag_id(tag_id) when is_integer(tag_id) do
@@ -67,5 +67,10 @@ defmodule Today.Worklog do
   def fetch_with_assoc_by_user_id(user_id) when is_integer(user_id) do
     fetch_by_user_id(user_id)
     |> Repo.preload(:tags)
+  end
+
+  def fetch_descending(query) do
+    query
+    |> order_by(:desc)
   end
 end
