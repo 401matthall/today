@@ -1,7 +1,6 @@
 defmodule Today.WorklogTag do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Today.{Worklog, Tag}
 
   schema "worklogs_tags" do
     field :worklog_id, :integer
