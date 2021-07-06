@@ -1,7 +1,7 @@
 FROM elixir:1.9.4
 LABEL maintainer="M. Hall"
 RUN apt-get update && apt-get install --yes postgresql-client build-essential inotify-tools tmux
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
 RUN apt-get install -y nodejs
 ADD . /app
 RUN mix local.hex --force

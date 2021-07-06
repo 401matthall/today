@@ -29,7 +29,7 @@ config :phoenix, :json_library, Jason
 config :today, :pow,
   user: Today.Users.User,
   repo: Today.Repo,
-  extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession],
+  extensions: [PowResetPassword, PowEmailConfirmation],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
   web_module: TodayWeb,
   mailer_backend: TodayWeb.Pow.Mailer,
