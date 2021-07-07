@@ -55,6 +55,7 @@ defmodule Today.MixProject do
       {:bamboo_smtp, "~> 2.1"},
       {:faker, "~> 0.13.0"},
       {:persistent_ets, "~> 0.2.1"},
+      {:earmark, "~> 1.4"},
     ]
   end
 
