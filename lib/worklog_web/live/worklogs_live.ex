@@ -34,6 +34,13 @@ defmodule TodayWeb.WorklogsLive do
     |> assign(:page_title, "Today - New Worklog")
   end
 
+  def handle_event("goto_worklog_view", _params, socket) do
+    {:noreply,
+      socket
+      |> push_patch(to: Routes.worklogs_path(socket, :new))
+    }
+  end
+
   @impl true
     def handle_event("create_worklog", params, socket) do
     worklog = params["worklog"]
@@ -50,13 +57,6 @@ defmodule TodayWeb.WorklogsLive do
     Logger.info("WORKLOG TAGS")
     Logger.info(worklog_params["tags"])
     Today.Repo.insert(changeset)
-  end
-
-  def handle_event("goto_worklog_view", params, socket) do
-    {:noreply,
-      socket
-      |> push_patch(to: Routes.worklogs_path(socket, :new))
-    }
   end
 
 end
