@@ -8,7 +8,7 @@
       <div class="max-w-md mx-auto bg-gray-700 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
           <div class="md:flex">
               <div class="p-8">
-                  <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %> - <span class="text-sm"><%= worklog.inserted_at %></span></div>
+                  <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %> - <span class="text-sm"><%= worklog.inserted_at |> Timex.Timezone.convert(@current_user_timezone) %></span></div>
                   <p class="mt-2"><%= worklog.body |> Earmark.as_html! |> Phoenix.HTML.raw %></p>
                   <div>
                       <em>tags:</em>
@@ -29,13 +29,13 @@
 
 <%= if @live_action in [:new] do %>
   <div class="flex items-center justify-center">
-    <div class="bg-gray-700 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-2/5">
+    <div class="bg-gray-700 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-2/5" phx-window-keydown="persist_worklog" phx-key="Control-Enter" phx-throttle="3000">
       <h2 class="flex justify-center mb-2 font-bold text-lg">New Worklog<h2>
 
       <%= f = form_for :worklog, "#", id: "create-worklog-form", phx_change: nil, phx_submit: "create_worklog" %>
         <div class="mb-6">
           <%= label f, :title, class: "text-gray-400 font-bold mb-2" %>
-          <%= text_input f, :title, class: "shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          <%= text_input f, :title, autofocus: "true",class: "shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
           <%= error_tag f, :title %>
           <span class="text-gray-500 text-sm"><em>optional</em></span>
         </div>

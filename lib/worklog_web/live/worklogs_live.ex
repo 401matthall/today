@@ -14,6 +14,7 @@ defmodule TodayWeb.WorklogsLive do
       :ok,
       socket
         |> assign(current_user: session["current_user"])
+        |> assign(current_user_timezone: get_current_user_timezone(session["current_user"]))
         |> assign(session: session)
         |> assign(worklogs: worklogs)
     }
@@ -34,6 +35,18 @@ defmodule TodayWeb.WorklogsLive do
     |> assign(:page_title, "Today - New Worklog")
   end
 
+  @impl true
+  def handle_event("persist_worklog", %{"key" => "ArrowUp"}, socket) do
+    Logger.info("UP ARROW PRESSED!")
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("persist_worklog", _key, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("goto_worklog_view", _params, socket) do
     {:noreply,
       socket
@@ -59,4 +72,11 @@ defmodule TodayWeb.WorklogsLive do
     Today.Repo.insert(changeset)
   end
 
+  defp get_current_user_timezone(user_id) do
+    user = Today.Repo.get(Today.Users.User, user_id)
+    case user.timezone do
+      nil -> "UTC"
+      timezone -> timezone
+    end
+  end
 end

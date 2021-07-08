@@ -4,10 +4,10 @@ defmodule Today.Users.User do
   use Pow.Extension.Ecto.Schema,
     extensions: [PowResetPassword, PowEmailConfirmation]
   import Ecto.Changeset
-  alias Ecto.Changeset
 
   schema "users" do
     field :uuid, :string
+    field :timezone, :string
     pow_user_fields()
     timestamps()
     has_many :worklogs, Today.Worklog
@@ -18,9 +18,9 @@ defmodule Today.Users.User do
     user_or_changeset
     |> pow_changeset(attrs)
     |> pow_extension_changeset(attrs)
-    |> Changeset.cast(attrs, [:uuid])
+    |> cast(attrs, [:uuid])
     |> generate_uuid
-    |> Changeset.update_change(:email, &String.downcase/1)
+    |> update_change(:email, &String.downcase/1)
   end
 
   defp generate_uuid(changeset) do
