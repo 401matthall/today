@@ -8,7 +8,7 @@
       <div class="max-w-md mx-auto bg-gray-700 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
           <div class="md:flex">
               <div class="p-8">
-                  <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %> - <span class="text-sm"><%= worklog.inserted_at |> Timex.Timezone.convert(@current_user_timezone) %></span></div>
+                  <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %> - <span class="text-sm"><%= worklog.inserted_at |> Today.DateTimeDisplay.format_with_timezone(@current_user_timezone) %></span></div>
                   <p class="mt-2"><%= worklog.body |> Earmark.as_html! |> Phoenix.HTML.raw %></p>
                   <div>
                       <em>tags:</em>
