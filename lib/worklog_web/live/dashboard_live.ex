@@ -9,13 +9,13 @@ defmodule TodayWeb.DashboardLive do
     if connected?(socket) do
     end
 
-    worklogs = Worklog.fetch_with_assoc_by_user_id(session["current_user"])
+    # worklogs = Worklog.fetch_with_assoc_by_user_id(session["current_user"])
     {
       :ok,
       socket
         |> assign(current_user: session["current_user"])
         |> assign(session: session)
-        |> assign(worklogs: worklogs)
+        # |> assign(worklogs: worklogs)
     }
   end
 
