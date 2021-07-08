@@ -69,8 +69,17 @@ defmodule Today.Worklog do
     |> Repo.preload(:tags)
   end
 
-  def fetch_descending(query) do
-    query
-    |> order_by(:desc)
+  def fetch_by_user_id_and_tag_text(user_id, tag_text) when is_integer(user_id) do
+    query_by_user_id_and_tag_text(user_id, tag_text)
+    |> Repo.all
+  end
+
+  def query_by_user_id_and_tag_text(user_id, tag_text) when is_integer(user_id) do
+    from w in Worklog,
+    join: wt in WorklogTag, on: wt.worklog_id == w.id,
+    join: t in Tag, on: wt.tag_id == t.id,
+    preload: [:tags],
+    where: w.user_id == ^user_id and like(t.text, ^"%#{tag_text}%"),
+    order_by: [desc: w.id]
   end
 end

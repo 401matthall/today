@@ -36,14 +36,14 @@ defmodule TodayWeb.WorklogsLive do
   end
 
   @impl true
-  def handle_event("persist_worklog", %{"key" => "ArrowUp"}, socket) do
-    Logger.info("UP ARROW PRESSED!")
-    {:noreply, socket}
-  end
+  def handle_event("search_tags", form, socket) do
+    %{"search_term" => search_term} = form
+    worklogs = Worklog.fetch_by_user_id_and_tag_text(socket.assigns.current_user, search_term)
 
-  @impl true
-  def handle_event("persist_worklog", _key, socket) do
-    {:noreply, socket}
+    updated_socket = socket
+    |> assign(worklogs: worklogs)
+
+    {:noreply, updated_socket}
   end
 
   @impl true
