@@ -75,7 +75,7 @@ defmodule Today.Worklog do
   end
 
   def query_by_user_id_and_tag_text(user_id, tag_text) when is_integer(user_id) do
-    from w in Worklog,
+    from w in Worklog, distinct: true,
     join: wt in WorklogTag, on: wt.worklog_id == w.id,
     join: t in Tag, on: wt.tag_id == t.id,
     preload: [:tags],
