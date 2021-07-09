@@ -13,10 +13,10 @@ defmodule TodayWeb.WorklogsLive do
     {
       :ok,
       socket
-        |> assign(current_user: session["current_user"])
-        |> assign(current_user_timezone: get_current_user_timezone(session["current_user"]))
-        |> assign(session: session)
-        |> assign(worklogs: worklogs)
+      |> assign(current_user: session["current_user"])
+      |> assign(current_user_timezone: get_current_user_timezone(session["current_user"]))
+      |> assign(session: session)
+      |> assign(worklogs: worklogs)
     }
   end
 
@@ -59,7 +59,7 @@ defmodule TodayWeb.WorklogsLive do
     worklog = params["worklog"]
     |> Map.put("user_id", socket.assigns.current_user)
     case persist_worklog(worklog) do
-      {:ok, _} -> {:noreply, put_flash(socket, :info, "Saved!")}
+      {:ok, _} -> {:noreply, socket |> put_flash(:info, "Worklog saved.") |> push_redirect(to: Routes.worklogs_path(socket, :index), replace: true)}
       {:error, %Ecto.Changeset{}} -> {:noreply, put_flash(socket, :error, "An error has occured while trying to save worklog.")}
     end
   end
@@ -67,8 +67,6 @@ defmodule TodayWeb.WorklogsLive do
   defp persist_worklog(worklog_params = %{}) do
     worklog = %Today.Worklog{}
     changeset = Today.Worklog.changeset(worklog, %{title: worklog_params["title"], body: worklog_params["body"], user_id: worklog_params["user_id"], tag_string: worklog_params["tags"]})
-    Logger.info("WORKLOG TAGS")
-    Logger.info(worklog_params["tags"])
     Today.Repo.insert(changeset)
   end
 
