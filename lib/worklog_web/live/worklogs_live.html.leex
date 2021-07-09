@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center">
     <button class="btn btn-blue m-1" phx-click="goto_worklog_view">New Worklog</button>
     <form class="shadow flex" phx-submit="search_tags">
-        <input class="w-full rounded p-2 text-gray-800" type="text" phx-debounce="2000" name="search_term" placeholder="Tag Search">
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" phx-debounce="2000" name="search_term" placeholder="Tag Search">
         <button class="bg-gray-1000 w-auto flex justify-end items-center text-blue-500 p-2 hover:text-blue-400">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -14,8 +14,8 @@
 <div class="space-y-6">
   <div></div>
   <%= for worklog = %Today.Worklog{} <- @worklogs do %>
-      <div class="max-w-md mx-auto bg-gray-700 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-          <div class="md:flex">
+      <div class="max-w-sm mx-auto bg-gray-700 rounded-xl shadow-sm overflow-hidden sm:max-w-2xl">
+          <div class="sm:flex">
               <div class="p-8">
                   <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %> - <span class="text-sm"><%= worklog.inserted_at |> Today.DateTimeDisplay.format_with_timezone(@current_user_timezone) %></span></div>
                   <p class="mt-2"><%= worklog.body |> Earmark.as_html! |> Phoenix.HTML.raw %></p>
@@ -38,7 +38,7 @@
 
 <%= if @live_action in [:new] do %>
   <div class="flex items-center justify-center">
-    <div class="bg-gray-700 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-2/5" phx-window-keydown="persist_worklog" phx-key="Control-Enter" phx-throttle="3000">
+    <div class="bg-gray-700 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-2/5-md w-full-sm" phx-window-keydown="persist_worklog" phx-key="Control-Enter" phx-throttle="3000">
       <h2 class="flex justify-center mb-2 font-bold text-lg">New Worklog<h2>
 
       <%= f = form_for :worklog, "#", id: "create-worklog-form", phx_change: nil, phx_submit: "create_worklog" %>

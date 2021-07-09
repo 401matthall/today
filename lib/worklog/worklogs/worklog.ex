@@ -79,7 +79,7 @@ defmodule Today.Worklog do
     join: wt in WorklogTag, on: wt.worklog_id == w.id,
     join: t in Tag, on: wt.tag_id == t.id,
     preload: [:tags],
-    where: w.user_id == ^user_id and like(t.text, ^"%#{tag_text}%"),
+    where: w.user_id == ^user_id and ilike(t.text, ^"%#{tag_text}%"),
     order_by: [desc: w.id]
   end
 end
