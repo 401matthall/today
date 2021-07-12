@@ -18,7 +18,7 @@
           <div class="sm:flex">
               <div class="p-8">
                   <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %></div>
-                  <div class="md:text-sm sm:text-xs"><em><%= worklog.inserted_at |> Today.DateTimeDisplay.format_with_timezone(@current_user_timezone) %></em></div>
+                  <div class="md:text-sm sm:text-xs"><em><%= worklog.inserted_at |> Today.DateTimeDisplay.format_pretty_datetime(@current_user_timezone) %></em></div>
                   <p class="mt-2"><%= worklog.body |> Earmark.as_html! |> Phoenix.HTML.raw %></p>
                   <div>
                       <em>tags:</em>
