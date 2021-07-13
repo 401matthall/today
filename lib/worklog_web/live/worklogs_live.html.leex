@@ -1,4 +1,4 @@
-<%= if @live_action in [:index] do %>
+<%= if @live_action in [:index, :tag_by_id] do %>
   <div class="flex items-center justify-center">
     <button class="btn btn-blue m-1" phx-click="goto_worklog_view">New Worklog</button>
     <form class="shadow flex" phx-submit="search_tags">
@@ -24,9 +24,9 @@
                       <em>tags:</em>
                       <%= for {tag, i} <- Enum.with_index(worklog.tags, 1) do %>
                           <%= if Enum.count(worklog.tags) != i do %>
-                              <a href="#" class="hover:underline text-gray-500"><%= tag.text %></a>,
+                              <%= live_patch tag.text, to: Routes.worklogs_path(@socket, :tag_by_id, tag.id), class: "text-gray-500 hover:underline" %>,
                           <% else %>
-                              <a href="#" class="hover:underline text-gray-500"><%= tag.text %></a>
+                              <%= live_patch tag.text, to: Routes.worklogs_path(@socket, :tag_by_id, tag.id), class: "text-gray-500 hover:underline" %>
                           <% end %>
                       <% end %>
                   </div>

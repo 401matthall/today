@@ -56,7 +56,23 @@ defmodule Today.Worklog do
     Repo.all(from w in Worklog, where: w.user_id == ^user_id, order_by: [desc: w.id])
   end
 
-  def fetch_by_tag_id(tag_id) when is_integer(tag_id) do
+  def query_by_tag_id(tag_id) do
+    from w in Worklog, distinct: true,
+    join: wt in WorklogTag, on: wt.worklog_id == w.id,
+    join: t in Tag, on: wt.tag_id == t.id,
+    preload: [:tags],
+    where: t.id == ^tag_id,
+    order_by: [desc: w.id]
+  end
+
+  def query_by_user_id_and_tag_id(user_id, tag_id) do
+    query_by_tag_id(tag_id)
+    |> where([w], w.user_id == ^user_id)
+  end
+
+  def fetch_by_user_id_and_tag_id(user_id, tag_id) do
+    query_by_user_id_and_tag_id(user_id, tag_id)
+    |> Repo.all
   end
 
   def fetch_with_assoc_by_id(id) when is_integer(id) do

@@ -42,6 +42,7 @@ defmodule TodayWeb.Router do
     live "/", WorklogsLive, :index
     live "/new", WorklogsLive, :new
     live "/search", WorklogsLive, :search
+    live "/tag/:id", WorklogsLive, :tag_by_id
   end
 
   scope "/tags", TodayWeb do
