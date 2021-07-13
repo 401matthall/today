@@ -1,4 +1,4 @@
-<%= if @live_action in [:index, :tag_by_id] do %>
+<%= if @live_action in [:index, :tag_by_id, :tag_by_text] do %>
   <div class="flex items-center justify-center">
     <button class="btn btn-blue m-1" phx-click="goto_worklog_view">New Worklog</button>
     <form class="shadow flex" phx-submit="search_tags">

@@ -43,15 +43,18 @@ defmodule TodayWeb.WorklogsLive do
     |> assign(worklogs: worklogs)
   end
 
+  defp apply_action(socket, :tag_by_text, params) do
+    worklogs = Worklog.fetch_by_user_id_and_tag_text(socket.assigns.current_user, params["text"])
+
+    socket
+    |> assign(:page_title, "Today - Tag Search")
+    |> assign(worklogs: worklogs)
+  end
+
   @impl true
   def handle_event("search_tags", form, socket) do
     %{"search_term" => search_term} = form
-    worklogs = Worklog.fetch_by_user_id_and_tag_text(socket.assigns.current_user, search_term)
-
-    updated_socket = socket
-    |> assign(worklogs: worklogs)
-
-    {:noreply, updated_socket}
+    {:noreply, push_patch(socket, to: Routes.worklogs_path(socket, :tag_by_text, search_term))}
   end
 
   @impl true
