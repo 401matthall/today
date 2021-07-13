@@ -54,7 +54,10 @@ defmodule TodayWeb.WorklogsLive do
   @impl true
   def handle_event("search_tags", form, socket) do
     %{"search_term" => search_term} = form
-    {:noreply, push_patch(socket, to: Routes.worklogs_path(socket, :tag_by_text, search_term))}
+    case search_term do
+      "" -> {:noreply, push_patch(socket, to: Routes.worklogs_path(socket, :index))}
+      _ -> {:noreply, push_patch(socket, to: Routes.worklogs_path(socket, :tag_by_text, search_term))}
+    end
   end
 
   @impl true
