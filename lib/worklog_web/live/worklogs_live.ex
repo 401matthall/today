@@ -26,8 +26,11 @@ defmodule TodayWeb.WorklogsLive do
   end
 
   defp apply_action(socket, :index, _params) do
+    worklogs = Worklog.fetch_with_assoc_by_user_id(socket.assigns.current_user)
+
     socket
     |> assign(:page_title, "Today - Worklogs")
+    |> assign(worklogs: worklogs)
   end
 
   defp apply_action(socket, :new, _params) do
