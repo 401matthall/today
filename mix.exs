@@ -56,6 +56,7 @@ defmodule Today.MixProject do
       {:faker, "~> 0.13.0"},
       {:persistent_ets, "~> 0.2.1"},
       {:earmark, "~> 1.4"},
+      {:certbot, "~> 0.5.0"},
     ]
   end
 
