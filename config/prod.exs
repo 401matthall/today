@@ -58,7 +58,7 @@ config :today, TodayWeb.Pow.Mailer,
 adapter: Bamboo.SMTPAdapter,
 server: {:system, "SMTP_DOMAIN"},
 hostname: {:system, "SMTP_HOSTNAME"},
-port: {:system, "SMTP_PORT"}
+port: {:system, "SMTP_PORT"},
 username: {:system, "SMTP_USER"}, # or {:system, "SMTP_USERNAME"}
 password: {:system, "SMTP_PASS"}, # or {:system, "SMTP_PASSWORD"}
 tls: :if_available, # can be `:always` or `:never`
