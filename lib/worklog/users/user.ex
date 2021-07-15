@@ -36,10 +36,16 @@ defmodule Today.Users.User do
     end
   end
 
-  def create_user(email, password, timezone) do
+  def create_confirmed_user(email, password, timezone) do
     %User{}
     |> changeset(%{email: email, password: password, password_confirmation: password, timezone: timezone})
     |> changeset_email_confirmation(%{email_confirmed_at: Timex.now()})
+    |> Repo.insert()
+  end
+
+  def create_unconfirmed_user(email, password, timezone) do
+    %User{}
+    |> changeset(%{email: email, password: password, password_confirmation: password, timezone: timezone})
     |> Repo.insert()
   end
 
