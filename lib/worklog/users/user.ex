@@ -4,6 +4,7 @@ defmodule Today.Users.User do
   use Pow.Extension.Ecto.Schema,
     extensions: [PowResetPassword, PowEmailConfirmation]
   import Ecto.Changeset
+  alias Today.{Users.User, Repo}
 
   schema "users" do
     field :uuid, :string
@@ -23,11 +24,23 @@ defmodule Today.Users.User do
     |> update_change(:email, &String.downcase/1)
   end
 
+  def changeset_email_confirmation(changeset, attrs) do
+    changeset
+    |> cast(attrs, [:email_confirmed_at])
+  end
+
   defp generate_uuid(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true} -> put_change(changeset, :uuid, UUID.uuid4)
       _ -> changeset
     end
+  end
+
+  def create_user(email, password, timezone) do
+    %User{}
+    |> changeset(%{email: email, password: password, password_confirmation: password, timezone: timezone})
+    |> changeset_email_confirmation(%{email_confirmed_at: Timex.now()})
+    |> Repo.insert()
   end
 
 end
