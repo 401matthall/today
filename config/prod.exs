@@ -22,11 +22,11 @@ config :logger, level: :info
 #
     config :today, TodayWeb.Endpoint,
       https: [
-        port: 443,
+        port: System.get_env("HTTPS_PORT"),
         cipher_suite: :strong,
         keyfile: System.get_env("SSL_KEY_PATH"),
         certfile: System.get_env("SSL_CERT_PATH"),
-        transport_options: [socket_opts: [:inet6]]
+        # transport_options: [socket_opts: [:inet6]],
       ]
 #
 # The `cipher_suite` is set to `:strong` to support only the

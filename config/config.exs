@@ -13,7 +13,7 @@ config :today,
 # Configures the endpoint
 config :today, TodayWeb.Endpoint,
   url: [host: System.get_env("HOST_URL")|| "localhost"],
-  http: [port: System.get_env("PORT") || 4000],
+  http: [port: System.get_env("HTTP_PORT") || 4000],
   secret_key_base: "y/FVsO0qZDcevB6YHw2i50Uo0s5L0USGJSRufLsbePkIA9yM/CcJcBYMry0eGjJc",
   render_errors: [view: TodayWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Today.PubSub,
