@@ -7,5 +7,7 @@ defmodule Today.Repo.Migrations.CreateTags do
       add :user_id, :integer
       timestamps()
     end
+
+    create index(:tags, [:text, :user_id], name: :tags_text_user_id_index, unique: true)
   end
 end
