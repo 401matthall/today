@@ -29,6 +29,11 @@ defmodule Today.Users.User do
     |> cast(attrs, [:email_confirmed_at])
   end
 
+  def changeset_timezone(changeset, attrs) do
+    changeset
+    |> cast(attrs, [:timezone])
+  end
+
   defp generate_uuid(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true} -> put_change(changeset, :uuid, UUID.uuid4)
@@ -38,14 +43,16 @@ defmodule Today.Users.User do
 
   def create_confirmed_user(email, password, timezone) do
     %User{}
-    |> changeset(%{email: email, password: password, password_confirmation: password, timezone: timezone})
+    |> changeset(%{email: email, password: password, password_confirmation: password})
     |> changeset_email_confirmation(%{email_confirmed_at: Timex.now()})
+    |> changeset_timezone(%{timezone: timezone})
     |> Repo.insert()
   end
 
   def create_unconfirmed_user(email, password, timezone) do
     %User{}
-    |> changeset(%{email: email, password: password, password_confirmation: password, timezone: timezone})
+    |> changeset(%{email: email, password: password, password_confirmation: password})
+    |> changeset_timezone(%{timezone: timezone})
     |> Repo.insert()
   end
 
