@@ -41,6 +41,7 @@ defmodule Today.Worklog do
     %Tag{}
     |> change(%{text: text, user_id: user_id})
     |> unique_constraint([:text, :user_id])
+    |> update_change(:text, &String.downcase/1)
     |> Repo.insert
     |> case do
       {:ok, tag} -> tag
