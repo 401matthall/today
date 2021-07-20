@@ -21,6 +21,9 @@
                   <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %></div>
                   <div class="md:text-sm sm:text-xs"><em><%= worklog.inserted_at |> Today.DateTimeDisplay.format_pretty_datetime(@current_user_timezone) %></em></div>
                   <p class="mt-2"><%= worklog.body |> Earmark.as_html! |> Phoenix.HTML.raw %></p>
+                  <%= if worklog.inserted_at != worklog.updated_at do %>
+                      <div class="md:text-sm sm:text-xs">Updated: <em><%= worklog.updated_at |> Today.DateTimeDisplay.format_pretty_datetime(@current_user_timezone) %></em></div>
+                  <% end %>
                   <div>
                       <em>tags:</em>
                       <%= for {tag, i} <- Enum.with_index(worklog.tags, 1) do %>
