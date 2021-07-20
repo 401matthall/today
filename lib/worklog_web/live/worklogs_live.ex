@@ -38,6 +38,20 @@ defmodule TodayWeb.WorklogsLive do
     |> assign(:page_title, "Today - New Worklog")
   end
 
+  defp apply_action(socket, :edit, params) do
+    worklog = Worklog.fetch_by_id_with_tags(params["id"])
+    tag_string = worklog.tags
+    |> Enum.map(fn(tag) -> tag.text end)
+    |> Enum.join(", ")
+
+    worklog = %{worklog | tag_string: tag_string}
+
+    socket
+    |> assign(:page_title, "Today - Worklog Edit")
+    |> assign(worklog: worklog)
+    |> assign(%{changeset: Worklog.create_update_changeset(worklog)})
+  end
+
   defp apply_action(socket, :tag_by_id, params) do
     worklogs = Worklog.fetch_by_user_id_and_tag_id(socket.assigns.current_user, params["id"])
 
@@ -72,7 +86,7 @@ defmodule TodayWeb.WorklogsLive do
   end
 
   @impl true
-    def handle_event("create_worklog", params, socket) do
+  def handle_event("create_worklog", params, socket) do
     worklog = params["worklog"]
     |> Map.put("user_id", socket.assigns.current_user)
     case persist_worklog(worklog) do
@@ -81,10 +95,25 @@ defmodule TodayWeb.WorklogsLive do
     end
   end
 
+  @impl true
+  def handle_event("edit_worklog", params, socket) do
+    worklog = params["worklog"]
+    case update_worklog(socket.assigns.changeset, worklog) do
+      {:ok, _} -> {:noreply, socket |> put_flash(:info, "Worklog saved.") |> push_redirect(to: Routes.worklogs_path(socket, :index), replace: true)}
+      {:error, %Ecto.Changeset{}} -> {:noreply, put_flash(socket, :error, "An error has occured trying to persist a worklog.")}
+    end
+  end
+
   defp persist_worklog(worklog_params = %{}) do
     worklog = %Today.Worklog{}
     changeset = Today.Worklog.changeset(worklog, %{title: worklog_params["title"], body: worklog_params["body"], user_id: worklog_params["user_id"], tag_string: worklog_params["tags"]})
     Today.Repo.insert(changeset)
+  end
+
+  defp update_worklog(changeset = %Ecto.Changeset{}, params = %{}) do
+    worklog = Today.Repo.get(Worklog, changeset.data.id) |> Today.Repo.preload(:tags)
+    new_changeset = Today.Worklog.changeset(worklog, %{title: params["title"], body: params["body"], tag_string: params["tags"], user_id: worklog.user_id})
+    Today.Repo.update(new_changeset)
   end
 
   defp get_current_user_timezone(user_id) do

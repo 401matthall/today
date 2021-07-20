@@ -15,8 +15,9 @@
   <div></div>
   <%= for worklog = %Today.Worklog{} <- @worklogs do %>
       <div class="max-w-sm mx-auto bg-gray-700 rounded-xl shadow-sm overflow-hidden sm:max-w-2xl">
-          <div class="sm:flex">
-              <div class="p-8">
+          <div class="sm:flex sm:max-w">
+              <div class="sm:p-6 sm:w-full md:p-2">
+                  <%= live_patch "Edit", to: Routes.worklogs_path(@socket, :edit, worklog.id), class: "sm:w-full md:w-auto md:float-right btn btn-blue clickable" %>
                   <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %></div>
                   <div class="md:text-sm sm:text-xs"><em><%= worklog.inserted_at |> Today.DateTimeDisplay.format_pretty_datetime(@current_user_timezone) %></em></div>
                   <p class="mt-2"><%= worklog.body |> Earmark.as_html! |> Phoenix.HTML.raw %></p>
@@ -39,7 +40,7 @@
 
 <%= if @live_action in [:new] do %>
   <div class="flex items-center justify-center">
-    <div class="bg-gray-700 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-2/5-md w-full-sm" phx-window-keydown="persist_worklog" phx-key="Control-Enter" phx-throttle="3000">
+    <div class="bg-gray-700 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-2/5-md w-full-sm">
       <h2 class="flex justify-center mb-2 font-bold text-lg">New Worklog<h2>
 
       <%= f = form_for :worklog, "#", id: "create-worklog-form", phx_change: nil, phx_submit: "create_worklog" %>
@@ -60,6 +61,42 @@
         <div class="mb-6">
           <%= label f, :tags, class: "text-gray-400 font-bold mb-2" %>
           <%= text_input f, :tags, class: "shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          <%= error_tag f, :tags %>
+          <span class="text-gray-500 text-sm"><em>optional</em></span>
+        </div>
+
+        <div class="flex items-center justify-center">
+          <%= submit "Save", phx_disable_with: "Saving worklog...", class: "btn btn-blue" %>
+        </div>
+      </form>
+
+    </div>
+  </div>
+<% end %>
+
+<%= if @live_action in [:edit] do %>
+  <div class="flex items-center justify-center">
+    <div class="bg-gray-700 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-2/5-md w-full-sm">
+      <h2 class="flex justify-center mb-2 font-bold text-lg">Edit Worklog<h2>
+
+      <%= f = form_for @changeset, "#", id: "edit-worklog-form", phx_change: nil, phx_submit: "edit_worklog" %>
+        <div class="mb-6">
+          <%= label f, :title, class: "text-gray-400 font-bold mb-2" %>
+          <%= text_input f, :title, value: @worklog.title, class: "shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          <%= error_tag f, :title %>
+          <span class="text-gray-500 text-sm"><em>optional</em></span>
+        </div>
+
+        <div class="mb-6">
+          <%= label f, :body, class: "text-gray-400 font-bold mb-2" %>
+          <%= textarea f, :body, value: @worklog.body, class: "shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", rows: "8" %>
+          <%= error_tag f, :body %>
+          <span class="text-gray-500 text-sm"><em><a href="https://www.markdownguide.org/basic-syntax/" target="_blank" class="hover:underline">Markdown</a> styling works in this field</em></span>
+        </div>
+
+        <div class="mb-6">
+          <%= label f, :tags, class: "text-gray-400 font-bold mb-2" %>
+          <%= text_input f, :tags, value: @worklog.tag_string, class: "shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
           <%= error_tag f, :tags %>
           <span class="text-gray-500 text-sm"><em>optional</em></span>
         </div>

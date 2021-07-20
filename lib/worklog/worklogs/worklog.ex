@@ -53,6 +53,12 @@ defmodule Today.Worklog do
     Repo.get(Worklog, id)
   end
 
+  def fetch_by_id_with_tags(id) do
+    Repo.get(Worklog, id)
+    |> Repo.preload(:tags)
+
+  end
+
   def fetch_by_user_id(user_id) when is_integer(user_id) do
     Repo.all(from w in Worklog, where: w.user_id == ^user_id, order_by: [desc: w.id])
   end
@@ -98,5 +104,9 @@ defmodule Today.Worklog do
     preload: [:tags],
     where: w.user_id == ^user_id and ilike(t.text, ^"%#{tag_text}%"),
     order_by: [desc: w.id]
+  end
+
+  def create_update_changeset(worklog = %Worklog{}) do
+    Ecto.Changeset.change(worklog, %{title: worklog.title, body: worklog.body, tags: []})
   end
 end
