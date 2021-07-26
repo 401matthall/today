@@ -52,16 +52,12 @@ defmodule TodayWeb.WorklogsLive do
     |> assign(%{changeset: Worklog.create_update_changeset(worklog)})
   end
 
-  defp apply_action(socket, :tag_by_id, params) do
-    worklogs = Worklog.fetch_by_user_id_and_tag_id(socket.assigns.current_user, params["id"])
-
-    socket
-    |> assign(:page_title, "Today - Tag Search")
-    |> assign(worklogs: worklogs)
-  end
-
-  defp apply_action(socket, :tag_by_text, params) do
-    worklogs = Worklog.fetch_by_user_id_and_tag_text(socket.assigns.current_user, params["text"])
+  defp apply_action(socket, :search, params) do
+    worklogs = case params do
+      %{"tag_id" => _} -> Worklog.fetch_by_user_id_and_tag_id(socket.assigns.current_user, params["tag_id"])
+      %{"tag_text" => _} -> Worklog.fetch_by_user_id_and_tag_text(socket.assigns.current_user, params["tag_text"])
+      _ -> Worklog.fetch_by_user_id(socket.assigns.current_user) |> Today.Repo.preload(:tags)
+    end
 
     socket
     |> assign(:page_title, "Today - Tag Search")
@@ -73,7 +69,7 @@ defmodule TodayWeb.WorklogsLive do
     %{"search_term" => search_term} = form
     case search_term do
       "" -> {:noreply, push_patch(socket, to: Routes.worklogs_path(socket, :index))}
-      _ -> {:noreply, push_patch(socket, to: Routes.worklogs_path(socket, :tag_by_text, search_term))}
+      _ -> {:noreply, push_patch(socket, to: Routes.worklogs_path(socket, :search, tag_text: search_term))}
     end
   end
 
