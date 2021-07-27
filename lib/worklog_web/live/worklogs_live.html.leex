@@ -1,6 +1,6 @@
 <%= if @live_action in [:index, :search] do %>
   <div class="flex items-center justify-center">
-    <button class="btn btn-blue m-1" phx-click="goto_worklog_view">New Worklog</button>
+    <button class="btn btn-blue m-1" phx-click="show_new_worklog_modal">New Worklog</button>
     <form class="shadow flex" phx-submit="search_tags">
         <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" phx-debounce="2000" name="search_term" placeholder="Tag Search">
         <button class="bg-gray-1000 w-auto flex justify-end items-center text-blue-500 p-2 hover:text-blue-400">
@@ -17,7 +17,8 @@
       <div class="max-w-sm mx-auto bg-gray-700 rounded-xl shadow-sm overflow-hidden sm:max-w-2xl">
           <div class="sm:flex sm:max-w">
               <div class="sm:p-6 sm:w-full md:p-2">
-                  <%= live_patch "Edit", to: Routes.worklogs_path(@socket, :edit, worklog.id), class: "sm:w-full md:w-auto md:float-right btn bg-gray-800 hover:bg-gray-600 clickable" %>
+                  <button class="sm:w-full md:w-auto md:float-right btn bg-gray-800 hover:bg-gray-600 clickable" phx-click="show_edit_worklog_modal" phx-value-worklog-id="<%= worklog.id %>">Edit</button>
+
                   <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %></div>
                   <div class="md:text-sm sm:text-xs"><em><%= worklog.inserted_at |> Today.DateTimeDisplay.format_pretty_datetime(@current_user_timezone) %></em></div>
                   <p class="mt-2"><%= worklog.body |> Earmark.as_html! |> Phoenix.HTML.raw %></p>
@@ -111,4 +112,12 @@
 
     </div>
   </div>
+<% end %>
+
+<%= if @show_new_worklog_modal do %>
+  <%= live_component(@socket, TodayWeb.LiveComponent.NewWorklogModalLive, id: "new_worklog_modal") %>
+<% end %>
+
+<%= if @show_edit_worklog_modal do %>
+  <%= live_component(@socket, TodayWeb.LiveComponent.EditWorklogModalLive, id: "edit_worklog_modal", changeset: @changeset, worklog: @worklog) %>
 <% end %>

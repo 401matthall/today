@@ -16,6 +16,8 @@ defmodule TodayWeb.WorklogsLive do
       |> assign(current_user: session["current_user"])
       |> assign(current_user_timezone: get_current_user_timezone(session["current_user"]))
       |> assign(session: session)
+      |> assign(show_new_worklog_modal: false)
+      |> assign(show_edit_worklog_modal: false)
       |> assign(worklogs: worklogs)
     }
   end
@@ -74,10 +76,18 @@ defmodule TodayWeb.WorklogsLive do
   end
 
   @impl true
-  def handle_event("goto_worklog_view", _params, socket) do
+  def handle_event("show_new_worklog_modal", _params, socket) do
     {:noreply,
       socket
-      |> push_patch(to: Routes.worklogs_path(socket, :new))
+      |> assign(show_new_worklog_modal: true)
+    }
+  end
+
+  @impl true
+  def handle_event("hide_new_worklog_modal", _params, socket) do
+    {:noreply,
+      socket
+      |> assign(show_new_worklog_modal: false)
     }
   end
 
@@ -89,6 +99,33 @@ defmodule TodayWeb.WorklogsLive do
       {:ok, _} -> {:noreply, socket |> put_flash(:info, "Worklog saved.") |> push_redirect(to: Routes.worklogs_path(socket, :index), replace: true)}
       {:error, %Ecto.Changeset{}} -> {:noreply, put_flash(socket, :error, "An error has occured while trying to save worklog.")}
     end
+  end
+
+  @impl true
+  def handle_event("show_edit_worklog_modal", params, socket) do
+    worklog = Worklog.fetch_by_id_with_tags(params["worklog-id"])
+    tag_string = worklog.tags
+    |> Enum.map(fn(tag) -> tag.text end)
+    |> Enum.join(", ")
+
+    worklog = %{worklog | tag_string: tag_string}
+    changeset = Worklog.create_update_changeset(worklog)
+
+    {:noreply,
+      socket
+      |> assign(page_title: "Today - Worklog Edit")
+      |> assign(worklog: worklog)
+      |> assign(changeset: changeset)
+      |> assign(show_edit_worklog_modal: true)
+    }
+  end
+
+  @impl true
+  def handle_event("hide_edit_worklog_modal", _params, socket) do
+    {:noreply,
+      socket
+      |> assign(show_edit_worklog_modal: false)
+    }
   end
 
   @impl true
