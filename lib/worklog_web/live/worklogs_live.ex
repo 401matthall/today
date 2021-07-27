@@ -35,25 +35,6 @@ defmodule TodayWeb.WorklogsLive do
     |> assign(worklogs: worklogs)
   end
 
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "Today - New Worklog")
-  end
-
-  defp apply_action(socket, :edit, params) do
-    worklog = Worklog.fetch_by_id_with_tags(params["id"])
-    tag_string = worklog.tags
-    |> Enum.map(fn(tag) -> tag.text end)
-    |> Enum.join(", ")
-
-    worklog = %{worklog | tag_string: tag_string}
-
-    socket
-    |> assign(:page_title, "Today - Worklog Edit")
-    |> assign(worklog: worklog)
-    |> assign(%{changeset: Worklog.create_update_changeset(worklog)})
-  end
-
   defp apply_action(socket, :search, params) do
     worklogs = case params do
       %{"tag_id" => _} -> Worklog.fetch_by_user_id_and_tag_id(socket.assigns.current_user, params["tag_id"])
@@ -79,6 +60,7 @@ defmodule TodayWeb.WorklogsLive do
   def handle_event("show_new_worklog_modal", _params, socket) do
     {:noreply,
       socket
+      |> assign(:page_title, "Today - New Worklog")
       |> assign(show_new_worklog_modal: true)
     }
   end
@@ -113,7 +95,7 @@ defmodule TodayWeb.WorklogsLive do
 
     {:noreply,
       socket
-      |> assign(page_title: "Today - Worklog Edit")
+      |> assign(page_title: "Today - Edit Worklog")
       |> assign(worklog: worklog)
       |> assign(changeset: changeset)
       |> assign(show_edit_worklog_modal: true)
