@@ -21,7 +21,7 @@
 
                   <div class="uppercase tracking-wide text-lg font-semibold"><%= worklog.title %></div>
                   <div class="md:text-sm sm:text-xs"><em><%= worklog.inserted_at |> Today.DateTimeDisplay.format_pretty_datetime(@current_user_timezone) %></em></div>
-                  <p class="mt-2"><%= worklog.body |> Earmark.as_html! |> Phoenix.HTML.raw %></p>
+                  <p class="mt-2"><%= worklog.body |> String.split("\r\n\r\n", trim: false) |> Enum.intersperse("<br>") |> Earmark.as_html! |> raw %></p>
                   <%= if worklog.inserted_at != worklog.updated_at do %>
                       <div class="sm:mt-2 sm:mb-2 md:text-sm sm:text-xs">Updated: <em><%= worklog.updated_at |> Today.DateTimeDisplay.format_pretty_datetime(@current_user_timezone) %></em></div>
                   <% end %>
