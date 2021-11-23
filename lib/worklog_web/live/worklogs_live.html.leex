@@ -1,5 +1,6 @@
 <%= if @live_action in [:index, :search] do %>
   <div class="flex items-center justify-center">
+    <button class="btn btn-gray m-1" phx-click="previous_page">Previous</button>
     <button class="btn btn-blue m-1" phx-click="show_new_worklog_modal">New Worklog</button>
     <form class="shadow flex" phx-submit="search_tags">
         <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" phx-debounce="2000" name="search_term" placeholder="Tag Search">
@@ -9,6 +10,7 @@
           </svg>
         </button>
     </form>
+    <button class="btn btn-gray m-1" phx-click="next_page">Next</button>
   </div>
 
 <div class="space-y-6">

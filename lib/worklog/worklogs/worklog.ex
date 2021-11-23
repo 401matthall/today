@@ -59,8 +59,40 @@ defmodule Today.Worklog do
 
   end
 
-  def fetch_by_user_id(user_id) when is_integer(user_id) do
-    Repo.all(from w in Worklog, where: w.user_id == ^user_id, order_by: [desc: w.id])
+  def by_user_id(user_id) when is_integer(user_id) do
+    from w in Worklog, where: w.user_id == ^user_id, order_by: [desc: w.id]
+  end
+
+  def by_tag_id(query, tag_id) do
+    from w in query, distinct: true,
+    join: wt in WorklogTag, on: wt.worklog_id == w.id,
+    join: t in Tag, on: wt.tag_id == t.id,
+    preload: [:tags],
+    where: t.id == ^tag_id,
+    order_by: [desc: w.id]
+  end
+
+  def by_tag_text(query, tag_text) do
+    from w in query, distinct: true,
+    join: wt in WorklogTag, on: wt.worklog_id == w.id,
+    join: t in Tag, on: wt.tag_id == t.id,
+    preload: [:tags],
+    where: ilike(t.text, ^"%#{tag_text}%"),
+    order_by: [desc: w.id]
+  end
+
+  def fetch_by_user_id(user_id) do
+    Repo.all(by_user_id(user_id))
+  end
+
+  def apply_pagination(query, page_number, per_page) do
+    page_number = case page_number do
+      n when n < 0 -> 0
+      n when n == 0 -> 0
+      n when n > 0 -> n - 1
+    end
+    skip_count = page_number * per_page
+    Ecto.Query.offset(query, ^skip_count)
   end
 
   def query_by_tag_id(tag_id) do
