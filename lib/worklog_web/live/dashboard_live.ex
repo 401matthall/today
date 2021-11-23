@@ -2,7 +2,6 @@ defmodule TodayWeb.DashboardLive do
   use TodayWeb, :live_view
   require Logger
   require Ecto.Query
-  alias Today.Worklog
 
   @impl true
   def mount(_params, session, socket) do
