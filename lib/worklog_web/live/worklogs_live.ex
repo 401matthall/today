@@ -7,14 +7,12 @@ defmodule TodayWeb.WorklogsLive do
   @default_per_page "5"
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(params, session, socket) do
     if connected?(socket) do
     end
-
     {
       :ok,
-      socket
-      |> assign(current_user: session["current_user"])
+      assign(socket, current_user: session["current_user"])
       |> assign(current_user_timezone: get_current_user_timezone(session["current_user"]))
       |> assign(session: session)
       |> assign(show_new_worklog_modal: false)
@@ -25,7 +23,6 @@ defmodule TodayWeb.WorklogsLive do
 
   @impl true
   def handle_params(params, _url, socket) do
-
     # action - index or search - adjust query
     # params - tag_text, tag_id, and page_number - also adjust
     # page_number - adjusts the query for both index and search
@@ -44,20 +41,11 @@ defmodule TodayWeb.WorklogsLive do
         {
           :noreply,
           socket
-          |> handle_params(params)
-          |> apply_action(socket.assigns.live_action, params)
-          |> fetch_worklogs(params)
+        |> parse_params(params)
+        |> apply_action(socket.assigns.live_action, params)
+        |> fetch_worklogs(params)
         }
     end
-  end
-
-  def fetch_worklogs(socket, params) do
-    worklogs = Worklog.by_user_id(socket.assigns.current_user)
-    |> apply_tags(params)
-    |> apply_pagination(params, socket)
-    |> populate_worklogs()
-
-    assign(socket, worklogs: worklogs)
   end
 
   def validate_integer(value) do
@@ -71,6 +59,19 @@ defmodule TodayWeb.WorklogsLive do
     rescue
       ArgumentError -> :invalid
     end
+  end
+
+  def fetch_worklogs(socket, params) do
+    worklogs = Worklog.by_user_id(socket.assigns.current_user)
+    |> apply_tags(params)
+    |> apply_pagination(params, socket)
+    |> populate_worklogs()
+
+    total_items = Worklog.by_user_id(socket.assigns.current_user)
+    |> apply_tags(params)
+    |> count_items
+
+    assign(socket, worklogs: worklogs, pagination: %{socket.assigns.pagination | total_items: Integer.to_string(total_items)})
   end
 
   def apply_pagination(query, _params, socket) do
@@ -87,11 +88,15 @@ defmodule TodayWeb.WorklogsLive do
     end
   end
 
+  def count_items(query) do
+    Today.Repo.all(query) |> Enum.count()
+  end
+
   def populate_worklogs(query) do
     Today.Repo.all(query) |> Today.Repo.preload(:tags)
   end
 
-  defp handle_params(socket, params) do
+  defp parse_params(socket, params) do
     pagination = socket.assigns.pagination
 
     pagination = if params["per_page"] != nil do
@@ -132,10 +137,11 @@ defmodule TodayWeb.WorklogsLive do
 
   def handle_event("next_page", params, socket) do
     pagination = socket.assigns.pagination
-    page_number = case pagination.page_number do
+    page_number = case String.to_integer(pagination.page_number) do
       n when n <= 0 -> 1
-      n when n >= 1 -> String.to_integer(n) + 1
+      n when n >= 1 -> n + 1
     end
+    page_number = if String.to_integer(pagination.total_items) < (page_number - 1) * String.to_integer(pagination.per_page) do String.to_integer(pagination.page_number) else page_number end
     # @TODO update url with params
     new_socket =
       assign(socket, pagination: %{pagination | page_number: Integer.to_string(page_number)})
